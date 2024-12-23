@@ -1,0 +1,47 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "default": {
+            "()": "uvicorn.logging.DefaultFormatter",
+            "fmt": "%(asctime)s [%(threadName)20s-%(thread)6d] %(levelname)7s [%(module)25s] [%(lineno)4d] %(message)s"
+        },
+        "access": {
+            "()": "uvicorn.logging.AccessFormatter",
+            "fmt": "%(asctime)s [%(threadName)20s-%(thread)6d] %(levelname)7s [%(module)25s] [%(lineno)4d] %(message)s"
+        }
+    },
+    "handlers": {
+        "default": {
+            "formatter": "default",
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stderr"
+        },
+        "default_file": {
+            "formatter": "default",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": "./logs/default.log",
+            "when": "midnight",
+            "encoding": "utf-8",
+            "backupCount": 30
+        },
+        "access": {
+            "formatter": "access",
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stdout"
+        },
+        "access_file": {
+            "formatter": "access",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": "./logs/access.log",
+            "when": "midnight",
+            "encoding": "utf-8",
+            "backupCount": 30
+                }
+    },
+    "loggers": {
+        "uvicorn": {"handlers": ["default","default_file"], "level": "INFO", "propagate": false},
+        "uvicorn.error": {"level": "INFO"},
+        "uvicorn.access": {"handlers": ["access","access_file"], "level": "INFO", "propagate": false}
+    }
+}
