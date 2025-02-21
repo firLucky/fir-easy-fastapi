@@ -93,4 +93,4 @@ python application.py --active test
 
 ## 开发文档
 
-详见 [开发文档](doc\doc.md) 
+详见 [开发文档](doc/doc.md) 
