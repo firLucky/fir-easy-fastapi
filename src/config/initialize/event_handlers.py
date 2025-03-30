@@ -27,7 +27,7 @@ def register_events(app: FastAPI):
         # 根据主机名获取本地网络的 IP 地址
         ip_address = socket.gethostbyname(hostname)
 
-        server_port = os.environ.get('SERVER_PORT')
+        server_port = os.environ.get('SERVER.PORT')
         server_port = int(server_port)
         http = "http"
         log.info(f"接口文档: {http}://{ip_address}:{server_port}/swagger-ui.html")

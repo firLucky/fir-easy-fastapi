@@ -1,8 +1,7 @@
-import os
-
 from fastapi import Depends, Request, Security
 from fastapi.security import APIKeyHeader
 from src.common.global_exception_handler import DescriptionException
+from src.common.singleton import Singleton
 from src.config.result.api_code import ApiCode
 from src.config.sys.cache_utils import cache
 
@@ -18,11 +17,14 @@ async def verify_token(request: Request, Authorization=Security(api_token_key)):
     """
 
     # 生产环境下，应开启token拦截器
-    jwt_filter = os.getenv('JWT_FILTER', 'false').lower() == 'true'
+    singleton = Singleton()
+    jwt_filter = singleton.jwt_filter
+    server_white_url_list = singleton.server_white_url_list
+
     if not jwt_filter:
         return None
 
-    if request.url.path == "/auth/login":
+    if request.url.path in server_white_url_list:
         return None
 
     if not Authorization:

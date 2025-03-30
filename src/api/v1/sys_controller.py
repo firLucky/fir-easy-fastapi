@@ -1,6 +1,8 @@
 import logging
-from fastapi import APIRouter, Request, Query, Depends
+from fastapi import APIRouter, Request, Depends, Body
 from src.config.result.api_result import ApiResult
+from src.dto import StateResponse, UserRequest
+from src.dto.user_dto import UserDtoResponse
 from src.service.impl.sys_service_impl import SysServiceImpl
 from src.service.impl.user_service_impl import UserServiceImpl
 from src.service.sys_service import SysService
@@ -25,21 +27,20 @@ def get_user_service() -> UserService:
     summary="用户登录",
     description="用户登录",
     response_description="用户信息",
+    response_model=UserDtoResponse,
 )
 async def login(
-        username: str = Query(None, description="用户名"),
-        password: str = Query(None, description="用户密码"),
+        user_request: UserRequest = Body(description="登录参数"),
         sys_service: SysService = Depends(get_sys_service),
         user_service: UserService = Depends(get_user_service)):
     """
     用户登录
-    :param password: 用户的唯一用户名
-    :param username: 用户的登录密码
+    :param user_request: 登录参数
     :param sys_service: 系统接口
     :param user_service: 用户接口
     :return: 用户登录信息
     """
-    user_dto = await sys_service.login(username, password, user_service)
+    user_dto = await sys_service.login(user_request.username, user_request.password, user_service)
     return ApiResult.success(data=user_dto)
 
 
@@ -48,6 +49,7 @@ async def login(
     summary="用户登出",
     description="用户登出",
     response_description="成功/失败",
+    response_model=StateResponse,
 )
 async def logout(request: Request,
                  sys_service: SysService = Depends(get_sys_service)):

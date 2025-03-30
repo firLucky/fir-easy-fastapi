@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
-
 from fastapi import Depends
-
 from src.dependencies.sys_dependencies import get_user_mapper
+from src.dto.user import CreateUserDTO, UpdateUserDTO, deleteUserDTO
+from src.dto.user.user_dto import UserDTO
 from src.dto.user_department_dto import UserDepartmentDTO
 from src.entity.user import User
 from src.mapper.user_mapper import UserMapper
@@ -15,19 +15,17 @@ class UserService(ABC):
     """
 
     @abstractmethod
-    async def create_user(self, username: str, email: str, is_active: bool) -> User:
+    async def create_user(self, create_user_dto: CreateUserDTO) -> UserDTO:
         """
         创建一个新用户。
 
-        :param username: 用户名
-        :param email: 邮件地址
-        :param is_active: 激活状态
+        :param create_user_dto: 用户信息
         :return: 用户对象
         """
         pass
 
     @abstractmethod
-    async def get_user(self, user_id: int) -> User:
+    async def get_user(self, user_id: int) -> Optional[UserDTO]:
         """
         根据用户ID获取用户信息。
 
@@ -37,7 +35,7 @@ class UserService(ABC):
         pass
 
     @abstractmethod
-    async def get_all_users(self) -> List[User]:
+    async def get_all_users(self) -> List[UserDTO]:
         """
         获取所有用户的信息。
 
@@ -46,25 +44,21 @@ class UserService(ABC):
         pass
 
     @abstractmethod
-    async def update_user(self, user_id: int, username: Optional[str], email: Optional[str],
-                          is_active: Optional[bool]) -> User:
+    async def update_user(self, update_user_dto: UpdateUserDTO) -> bool:
         """
         更新指定用户的信息。
 
-        :param user_id: 要更新的用户ID
-        :param username: 新用户名（可选）
-        :param email: 新邮件地址（可选）
-        :param is_active: 新激活状态（可选）
+        :param update_user_dto: 用户信息
         :return: 更新后的用户对象
         """
         pass
 
     @abstractmethod
-    async def delete_user(self, user_id: int) -> bool:
+    async def delete_user(self, delete_user_dto: deleteUserDTO) -> bool:
         """
         删除指定用户。
 
-        :param user_id: 要删除的用户ID
+        :param delete_user_dto: 删除用户信息
         :return: 删除操作是否成功
         """
         pass
@@ -78,19 +72,5 @@ class UserService(ABC):
         :param user_mapper:
         :param user_id: 用户的唯一标识符
         :return: 用户部门信息
-        """
-        pass
-
-    @abstractmethod
-    async def get_user_by_username_password(self, username: str, password: str,
-                                            user_mapper: UserMapper = Depends(get_user_mapper)) \
-            -> User:
-        """
-        通过用户密码，获取用户信息
-
-        :param username: 用户名称
-        :param password: 用户密码
-        :param user_mapper:
-        :return: 用户信息
         """
         pass

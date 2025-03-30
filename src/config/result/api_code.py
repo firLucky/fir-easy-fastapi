@@ -21,3 +21,4 @@ class ApiCode(ApiCodeCustomEnum):
     """
     ACCESS_DENIED = (401, "登录过期!")
     ERROR_USER_PASS = (400, "用户名或密码错误!")
+    ERROR_PARAMETER_MISS = (400, "参数缺失!")

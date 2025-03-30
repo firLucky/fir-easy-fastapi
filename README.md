@@ -66,7 +66,13 @@ pip install -r requirements.txt
 
 ### conda环境安装
 ```shell
-conda create -n fastapi python=3.11
+conda create -n fir-easy-fastapi python=3.11
+```
+
+切换环境
+
+```
+conda activate fir-easy-fastapi
 ```
 
 环境依赖安装

@@ -1,6 +1,5 @@
-import os
-
 from src.common.global_exception_handler import DescriptionException
+from src.common.singleton import Singleton
 from src.config.result.api_code import ApiCode
 from src.dto.user_dto import UserDto
 from src.config.sys.cache_utils import cache
@@ -11,7 +10,7 @@ from src.utils.security_utils import create_access_token
 
 class SysServiceImpl(SysService):
     """
-    用户实现层
+    系统管理 实现层
     """
 
     async def login(self, username: str, password: str, user_service: UserService) -> UserDto:
@@ -29,8 +28,8 @@ class SysServiceImpl(SysService):
         access_token = create_access_token(uid=user.id, uname=user.username)
         user_dto = UserDto(username=user.username, token=access_token)
 
-        jwt_expiration = os.environ.get('JWT_EXPIRATION')
-        jwt_expiration = int(jwt_expiration)
+        singleton = Singleton()
+        jwt_expiration = singleton.get_jwt_expiration()
         cache.set(access_token, user_dto, expire=jwt_expiration)
         return user_dto
 

@@ -6,7 +6,7 @@ from src.service.user_service import UserService
 
 class SysService(ABC):
     """
-    用户接口
+    系统管理 接口层
     """
 
     @abstractmethod

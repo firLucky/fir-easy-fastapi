@@ -3,7 +3,13 @@ from tortoise.models import Model
 
 
 class User(Model):
-    id = fields.IntField(pk=True)
-    username = fields.CharField(max_length=50)
-    password = fields.CharField(max_length=50)
+    """
+    用户表
+    """
+    id = fields.IntField(pk=True, description='主键编号')
+    username = fields.CharField(max_length=50, null=True, description='用户登录名')
+    password = fields.CharField(max_length=50, null=True, description='用户密码')
 
+    class Meta:
+        table = "user"
+        table_description = "用户表"
