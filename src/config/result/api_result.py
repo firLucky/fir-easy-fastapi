@@ -40,7 +40,7 @@ class ApiResult:
         """
         json_compatible_item_data = jsonable_encoder(data)
         return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_200_OK,
             content={
                 'code': code,
                 'message': message,

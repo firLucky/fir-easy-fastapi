@@ -10,6 +10,8 @@ class CreateUserDTO(BaseModel):
     创建用户
     """
     username: str = Field(description="用户名")
+    password: str = Field(description="用户密码")
+    dept_code: int = Field(description="部门编号")
 
 class CreateUserResponseDTO(BaseModel):
     """
@@ -40,8 +42,9 @@ class UpdateUserDTO(BaseModel):
     更新用户
     """
     user_id: int = Field(description="用户编号")
-    username: str = Field(description="用户名")
-    password: str = Field(description="用户密码")
+    username: str = Field(None, description="用户名")
+    password: str = Field(None, description="用户密码")
+    dept_code: int = Field(None, description="部门编号")
 
 class deleteUserDTO(BaseModel):
     """

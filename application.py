@@ -3,7 +3,7 @@ import os
 
 import uvicorn
 from dotenv import load_dotenv
-from src.api.server_app import fir_app
+from src.controller import easy_app
 from src.config.initialize.initialize_utils import initialize_trigger
 from src.config.initialize.launch_title import start_logo_log
 
@@ -28,11 +28,11 @@ def main():
 
     if os.path.exists(env_file):
         load_dotenv(env_file)
-        server_port = os.environ.get('SERVER.PORT')
+        server_port = os.environ.get('SERVER.PORT', 8080)
         server_port = int(server_port)
-        server_host = os.environ.get('SERVER.HOST')
+        server_host = os.environ.get('SERVER.HOST', '127.0.0.1')
         start_logo_log()
-        uvicorn.run(fir_app, host=server_host, port=server_port, log_config="src/resources/uvicorn_config.json",
+        uvicorn.run(easy_app, host=server_host, port=server_port, log_config="src/resources/uvicorn_config.json",
                     use_colors=True,
                     loop="asyncio",
                     )

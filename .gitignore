@@ -21,3 +21,4 @@ bin-release/
 /cache_dir/
 /test/
 /.idea
+/src/resources/.env.home

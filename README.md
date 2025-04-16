@@ -1,10 +1,10 @@
 <p align="center">
 	<img alt="logo" src="https://foruda.gitee.com/avatar/1677189584093051772/9844924_dong-puen_1656601856.png!avatar200">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Fir Easy v1.0.1</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Fir Easy v1.0.2</h1>
 <h4 align="center">基于FastAPI实现SpringBoot结构的Python后端开发框架</h4>
 <p align="center">
-	<img src="https://img.shields.io/badge/Fir%20Easy-v1.0.1-da282a"></a>
+	<img src="https://img.shields.io/badge/Fir%20Easy-v1.0.2-da282a"></a>
 	<img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
 </p>
 

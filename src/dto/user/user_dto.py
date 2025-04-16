@@ -8,3 +8,4 @@ class UserDTO(BaseModel):
     id: int = Field(description="主键编号")
     username: str = Field(description="用户登录名")
     password: str = Field(description="用户密码")
+    dept_code: int = Field(description="部门编号")

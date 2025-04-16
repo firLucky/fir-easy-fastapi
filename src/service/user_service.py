@@ -74,3 +74,17 @@ class UserService(ABC):
         :return: 用户部门信息
         """
         pass
+
+    @abstractmethod
+    async def get_user_by_username_password(self, username: str, password: str,
+                                            user_mapper: UserMapper = Depends(get_user_mapper)) \
+            -> User:
+        """
+        通过用户密码，获取用户信息
+
+        :param username: 用户名称
+        :param password: 用户密码
+        :param user_mapper:
+        :return: 用户信息
+        """
+        pass

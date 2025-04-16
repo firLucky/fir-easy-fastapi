@@ -14,7 +14,7 @@ import os
 
 import uvicorn
 from dotenv import load_dotenv
-from src.api.server_app import fir_app
+from src.controller import easy_app
 from src.config.initialize.initialize_utils import initialize_trigger
 from src.config.initialize.launch_title import start_logo_log
 

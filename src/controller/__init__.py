@@ -2,18 +2,19 @@ import os
 
 from starlette.middleware.cors import CORSMiddleware
 
-from src.api.v1.user_controller import user_router
+from src.controller.ai_controller import ai_router
+from src.controller.user_controller import user_router
 from src.common import global_exception_handler
 from src.common.singleton import Singleton
 from src.entity import user, department
 from src.config.initialize.event_handlers import register_events
 from src.config.filter import dependencies
-from src.api.v1.sys_controller import sys_router
+from src.controller.sys_controller import sys_router
 from tortoise.contrib.fastapi import register_tortoise
 from fastapi import FastAPI
 
 
-def fir_app():
+def easy_app():
     # 拦截器
     dependencies_all = dependencies.all_dependencies()
 
@@ -25,13 +26,11 @@ def fir_app():
     if database_url == 'dev':
         openapi_url = "/openapi.json"
         docs_url = "/swagger-ui.html"
-        redoc_url = "/redoc"
     # 构建服务
-    app = FastAPI(title="杉极简", version="1.0.1",
+    app = FastAPI(title="杉极简", version="1.0.2",
                   dependencies=dependencies_all,
                   openapi_url=openapi_url,
                   docs_url=docs_url,
-                  redoc_url=redoc_url,
                   )
     # 允许跨域配置
     app.add_middleware(
@@ -47,6 +46,7 @@ def fir_app():
     # 控制层
     app.include_router(sys_router)
     app.include_router(user_router)
+    app.include_router(ai_router)
     # 注册异常处理器
     global_exception_handler.exception_register(app)
     # 服务启动与关闭触发方法

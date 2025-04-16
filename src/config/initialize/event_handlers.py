@@ -31,7 +31,6 @@ def register_events(app: FastAPI):
         server_port = int(server_port)
         http = "http"
         log.info(f"接口文档: {http}://{ip_address}:{server_port}/swagger-ui.html")
-        log.info(f"接口文档: {http}://{ip_address}:{server_port}/redoc")
         log.info(f"服务地址: {http}://{ip_address}:{server_port}")
 
     @app.on_event("shutdown")

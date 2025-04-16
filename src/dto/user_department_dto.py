@@ -5,9 +5,10 @@ class UserDepartmentDTO(BaseModel):
     """
     用户部门信息
     """
-    username: str = Field(description="用户名称")
-    department_name: str = Field(description="部门名称")
-    department_code: str = Field(description="部门编号")
+    user_id: int = Field(None, description="用户编号")
+    username: str = Field(None, description="用户名称")
+    dept_name: str = Field(None, description="部门名称")
+    dept_code: int = Field(None, description="部门编号")
 
 class UserDepartmentDTOResponse(BaseModel):
     """

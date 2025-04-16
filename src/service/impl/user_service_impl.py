@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from fastapi import Depends
 
-from src.dto.user import CreateUserDTO, UpdateUserDTO
+from src.dto.user import CreateUserDTO, UpdateUserDTO, deleteUserDTO
 from src.dto.user.user_dto import UserDTO
 from src.dto.user_department_dto import UserDepartmentDTO
 from src.entity.user import User
@@ -24,7 +24,10 @@ class UserServiceImpl(UserService):
         :param create_user_dto: 用户信息
         :return: 用户对象
         """
-        user = await User.create(username=create_user_dto.username, password=create_user_dto.password)
+        user = await User.create(username=create_user_dto.username,
+                                 password=create_user_dto.password,
+                                 dept_code=create_user_dto.dept_code
+                                 )
         user_dto = UserDTO(
             id=user.id,
             username=user.username,
@@ -41,11 +44,12 @@ class UserServiceImpl(UserService):
         """
         user_dto = None
         user = await User.filter(id=user_id).first()
-        if not user:
+        if user:
             user_dto = UserDTO(
                 id=user.id,
                 username=user.username,
                 password=user.password,
+                dept_code=user.dept_code,
             )
         return user_dto
 
@@ -76,25 +80,29 @@ class UserServiceImpl(UserService):
         user_id = update_user_dto.user_id
         username = update_user_dto.username
         password = update_user_dto.password
+        dept_code = update_user_dto.dept_code
         user = await User.filter(id=user_id).first()
-        if not user:
+        if user:
             if username:
                 user.username = username
 
-            if username:
+            if password:
                 user.password = password
+
+            if dept_code:
+                user.dept_code = dept_code
             await user.save()
         return True
 
-    async def delete_user(self, user_id: int) -> bool:
+    async def delete_user(self, delete_user_dto: deleteUserDTO) -> bool:
         """
         删除指定用户。
 
-        :param user_id: 要删除的用户ID
+        :param delete_user_dto: 删除用户信息
         :return: 删除操作是否成功
         """
-        user = await User.filter(id=user_id).first()
-        if not user:
+        user = await User.filter(id=delete_user_dto.user_id).first()
+        if user:
             await user.delete()
         return True
 
@@ -108,3 +116,16 @@ class UserServiceImpl(UserService):
         :return: 用户部门信息
         """
         return await user_mapper.get_user_department(user_id)
+
+    async def get_user_by_username_password(self, username: str, password: str,
+                                            user_mapper: UserMapper = Depends(get_user_mapper)) -> User:
+        """
+        通过用户密码，获取用户信息
+
+        :param username: 用户名称
+        :param password: 用户密码
+        :param user_mapper:
+        :return: 用户信息
+        """
+        user = await User.filter(username=username, password=password).first()
+        return user

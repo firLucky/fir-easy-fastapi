@@ -17,14 +17,13 @@ class UseMapperImpl(UserMapper):
         SELECT
             u.id AS user_id,
             u.username,
-            d.code AS department_code,
-            d.name AS department_name
+            d.code AS dept_code
         FROM
             user u
         LEFT JOIN
             department d
         ON
-            u.department_code = d.code
+            u.dept_code = d.code
         WHERE
             u.id = %s
         """
